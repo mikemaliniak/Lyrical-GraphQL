@@ -3,18 +3,6 @@ import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 
 class SongList extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			songs: [
-				{ title: "Smells Like Teen Spirit" },
-				{ title: "In Bloom" },
-				{ title: "Come as you are" },
-				{ title: "Breed" },
-				{ title: "Lithium" },
-			],
-		};
-	}
 	renderSongs() {
 		const { songs } = this.props.data;
 		if (!songs) return null;

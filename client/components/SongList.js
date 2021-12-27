@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import gql from "graphql-tag";
+import { graphql } from "react-apollo";
 
 class SongList extends Component {
 	constructor(props) {
@@ -9,20 +11,28 @@ class SongList extends Component {
 				{ title: "In Bloom" },
 				{ title: "Come as you are" },
 				{ title: "Breed" },
+				{ title: "Lithium" },
 			],
 		};
 	}
+	renderSongs() {
+		const { songs } = this.props.data;
+		if (!songs) return null;
+		return songs.map((song) => <li>{song.title}</li>);
+	}
 	render() {
-		console.log(this.props);
-		const { songs } = this.state;
-		return (
-			<div>
-				{songs.map((song) => (
-					<div key={song.title}>{song.title}</div>
-				))}
-			</div>
-		);
+		const { loading } = this.props.data;
+		if (loading) return <div>Loading...</div>;
+		return <div>{this.renderSongs()}</div>;
 	}
 }
 
-export default SongList;
+const query = gql`
+	{
+		songs {
+			title
+		}
+	}
+`;
+
+export default graphql(query)(SongList);
